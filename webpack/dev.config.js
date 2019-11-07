@@ -1,47 +1,40 @@
 'use strict'
 
-const path = require('path')
 const webpack = require('webpack')
 const validate = require('webpack-validator')
 
+const common = require('./common')
+
+const HtmlPlugin = require('html-webpack-plugin')
+const DashboardPlugin = require('webpack-dashboard/plugin')
+
 module.exports = validate({
+  devtool: 'source-map',
 
-    devtool: 'source-map',
+  entry: [
+    'react-hot-loader/patch',
+    'webpack-dev-server/client?http://localhost:3000',
+    'webpack/hot/only-dev-server',
+    common.entry
+  ],
 
-    entry: [
-        'react-hot-loader/patch',
-        'webpack-dev-server/client?http://localhost:3000',
-        'webpack/hot/only-dev-server',
-        path.join(__dirname, 'src', 'index')
-    ],
+  output: Object.assign({}, common.output, {
+    publicPath: ''
+  }),
 
-    output: {
-        path: path.join(__dirname, 'dist'),
-        filename: 'bundle.js',
-        publicPath: '/dist/'
-    },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new DashboardPlugin(),
+    new HtmlPlugin(common.htmlPluginConfig('template-dev.html'))
+  ],
 
-    plugins: [
-        new webpack.HotModuleReplacementPlugin
-    ],
+  module: {
+    preLoaders: [common.standardPreLoader],
+    loaders: [common.jsLoader, common.cssLoader]
+  },
 
-    module: {
-        preLoaders: [{
-            test: /\.js$/,
-            exclude: /node_modules/,
-            include: /src/,
-            loader: 'standard'
-        }],
-
-        loaders: [{
-          test: /\.js$/,
-          exclude: /node_modules/,
-          include: /src/,
-          loader: 'babel'
-        }]
-    }
+  resolve: common.resolve
 })
-
 
 /*
 entry
@@ -54,6 +47,5 @@ Output
     A propriedade Output define o nome e local do pacote gerado pelo webpack.
     O diretório padrão é o ./dist e o arquivo ./dist/main.js.
     Para configurar, devemos definir um objeto output com as propriedades path e filename no arquivo de configuração do webpack:
-
 
 */
