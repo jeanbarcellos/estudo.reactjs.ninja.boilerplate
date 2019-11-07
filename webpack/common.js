@@ -12,7 +12,7 @@ module.exports = {
 
   htmlPluginConfig: {
     title: 'GitHub app',
-    template: join(__dirname, '..', 'src', 'html', template)
+    template: join(__dirname, '..', 'src', 'html', 'template-dev.html')
   },
 
   standardPreLoader: {
@@ -20,7 +20,7 @@ module.exports = {
     test: /\.js$/,
     exclude: /node_modules/,
     include: join(__dirname, '..', 'src'),
-    use: 'standard-laoder'
+    use: 'standard-loader'
   },
 
   jsLoader: {
@@ -34,7 +34,7 @@ module.exports = {
     test: /\.css$/,
     exclude: /node_modules/,
     include: join(__dirname, '..', 'src'),
-    use: ['style-laoder', 'css-laoder']
+    use: ['style-loader', 'css-loader']
   },
 
   resolve: {
