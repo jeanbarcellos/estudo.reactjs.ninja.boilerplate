@@ -1,20 +1,21 @@
 'use strict'
 
 const webpack = require('webpack')
-const validate = require('webpack-validator')
 
 const common = require('./common')
 
 const HtmlPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-module.exports = validate({
+module.exports = {
   entry: common.entry,
 
   output: common.output,
 
   plugins: [
-    new ExtractTextPlugin('[name]-[hash].css'),
+    new ExtractTextPlugin({
+      filename: '[name]-[hash].css'
+    }),
 
     new webpack.DefinePlugin({
       'process.env': {
@@ -23,7 +24,7 @@ module.exports = validate({
     }),
 
     new webpack.optimize.UglifyJsPlugin({
-      compress: { warnings: false }
+      sourceMap: true
     }),
 
     // Não deixa duplicar arquivos chamados novamente
@@ -32,23 +33,24 @@ module.exports = validate({
     // Ordena para carregar os mais leves primeiro
     new webpack.optimize.OccurrenceOrderPlugin(),
 
-    new HtmlPlugin(common.htmlPluginConfig('template-prod.html'))
+    new HtmlPlugin(common.htmlPluginConfig)
   ],
 
   module: {
-    preLoaders: [common.standardPreLoader],
-
-    loaders: [
+    roles: [
+      common.standardPreLoader,
       common.jsLoader,
       Object.assign({}, common.cssLoader, {
-        loaders: undefined,
-        loader: ExtractTextPlugin.extract.apply(null, common.cssLoader.loaders)
+        use: ExtractTextPlugin.extract.apply({
+          fallback: common.cssLoader.use[0],
+          use: common.cssLoader.use.slice(1)
+        })
       })
     ]
   },
 
   resolve: common.resolve
-})
+}
 
 /*
 entry
