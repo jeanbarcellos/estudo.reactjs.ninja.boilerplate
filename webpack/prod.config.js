@@ -8,10 +8,8 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const ClenarPlugin = require('clean-webpack-plugin')
 
 module.exports = {
-  entry: {
-    app: common.entry,
-    vendor: ['react', 'react-dom']
-  },
+
+  entry: common.entry,
 
   output: common.output,
 
@@ -30,7 +28,12 @@ module.exports = {
       }
     }),
 
-    new webpack.optimize.CommonsChunkPlugin('vendor'),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'react-build',
+      minChunks: ({ resource }) => (
+        /node_modules\/(react(\-dom)?|fbjs)\//.test(resource)
+      )
+    }),
 
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true
