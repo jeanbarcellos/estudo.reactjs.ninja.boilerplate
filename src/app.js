@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react'
 
-import Title from 'components/title'
+// import Title from 'components/title'
 
 import './css/style.css'
 
@@ -11,7 +11,8 @@ class App extends Component {
     console.log('teste')
     super()
     this.state = {
-      title: '...'
+      title: '...',
+      Component: 'div'
     }
   }
 
@@ -19,23 +20,23 @@ class App extends Component {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve('My app witth async / await!')
-      }, 2000)
+      }, 3000)
     })
   }
 
   async componentDidMount () {
-    try {
-      this.setState({
-        title: await this.getTitle()
-      })
-    } catch (error) {
-    }
+    const title = await import('components/title')
+
+    this.setState({
+      title: await this.getTitle(),
+      Component: title.default
+    })
   }
 
   render () {
     return (
       <div>
-        <Title>{this.state.title}</Title>
+        <this.state.Component>{this.state.title}</this.state.Component>
       </div>
     )
   }
