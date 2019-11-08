@@ -50,6 +50,8 @@ module.exports = {
     rules: [
       common.standardPreLoader,
       common.jsLoader,
+      common.fileLoader,
+      common.urlLoader,
       Object.assign({}, common.cssLoader, {
         use: ExtractTextPlugin.extract({
           fallback: common.cssLoader.use[0],
