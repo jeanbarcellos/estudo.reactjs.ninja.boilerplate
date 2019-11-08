@@ -8,7 +8,10 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const ClenarPlugin = require('clean-webpack-plugin')
 
 module.exports = {
-  entry: common.entry,
+  entry: {
+    app: common.entry,
+    vendor: ['react', 'react-dom']
+  },
 
   output: common.output,
 
