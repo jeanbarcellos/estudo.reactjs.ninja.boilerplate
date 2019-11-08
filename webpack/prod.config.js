@@ -1,11 +1,12 @@
 'use strict'
 
+const { join } = require('path')
 const webpack = require('webpack')
-
 const common = require('./common')
 
 const HtmlPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const ClenarPlugin = require('clean-webpack-plugin')
 
 module.exports = {
   entry: common.entry,
@@ -13,6 +14,10 @@ module.exports = {
   output: common.output,
 
   plugins: [
+    new ClenarPlugin(['dist'], {
+      root: join(__dirname, '..')
+    }),
+
     new ExtractTextPlugin({
       filename: '[name]-[hash].css'
     }),
