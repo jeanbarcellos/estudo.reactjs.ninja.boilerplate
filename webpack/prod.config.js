@@ -30,6 +30,8 @@ module.exports = {
       }
     }),
 
+    new webpack.optimize.CommonsChunkPlugin('vendor'),
+
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true
     }),

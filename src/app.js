@@ -8,7 +8,7 @@ import './css/style.css'
 
 class App extends Component {
   constructor () {
-    console.log('teste');
+    console.log('teste')
     super()
     this.state = {
       title: '...'
