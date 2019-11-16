@@ -1,12 +1,12 @@
 'use strict'
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 
 // import Title from 'components/title'
 
 import './css/style.css'
 
-class App extends Component {
+class App extends PureComponent {
   constructor () {
     console.log('teste')
     super()
