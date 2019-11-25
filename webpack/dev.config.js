@@ -23,6 +23,7 @@ module.exports = {
   }),
 
   plugins: [
+    new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new DashboardPlugin(),
     new HtmlPlugin(common.htmlPluginConfig)

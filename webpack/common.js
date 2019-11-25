@@ -21,8 +21,8 @@ module.exports = {
   },
 
   htmlPluginConfig: {
-    title: 'GitHub app',
-    template: join(paths.src, 'html', 'template-dev.html')
+    title: 'My app',
+    template: join(paths.src, 'html', 'template.html')
   },
 
   standardPreLoader: {
@@ -40,20 +40,21 @@ module.exports = {
   jsLoader: {
     test: /\.js$/,
     include: paths.src,
-    use: {
-      loader: 'babel-loader',
-      options: {
-        presets: ['env', 'stage-0', 'react'],
-        plugins: [
-          'react-hot-loader/babel',
-          ['transform-runtime', {
-            helpers: false,
-            polyfill: false,
-            regenerator: true
-          }]
-        ]
-      }
-    }
+    use: [
+      'react-hot-loader/webpack',
+      {
+        loader: 'babel-loader',
+        options: {
+          presets: [['env', { modules: false }], 'stage-0', 'react'],
+          plugins: [
+            ['transform-runtime', {
+              helpers: false,
+              polyfill: false,
+              regenerator: true
+            }]
+          ]
+        }
+      }]
   },
 
   cssLoader: {
